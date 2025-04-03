@@ -1,0 +1,26 @@
+# Veritabanı yapılandırma dosyası
+config.php
+
+# Yüklenen dosyalar
+uploads/*
+!uploads/.gitkeep
+
+# IDE ve sistem dosyaları
+.DS_Store
+.idea/
+.vscode/
+*.log
+Thumbs.db
+
+# Composer
+/vendor/
+composer.lock
+
+# Node.js
+/node_modules/
+package-lock.json
+
+# Geçici dosyalar
+*.tmp
+*.temp
+*.swp 
