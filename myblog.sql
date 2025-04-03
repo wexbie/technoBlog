@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 03 Nis 2025, 14:48:29
+-- Üretim Zamanı: 03 Nis 2025, 17:06:16
 -- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.2.12
 
@@ -90,24 +90,10 @@ CREATE TABLE `kullanicilar` (
 --
 
 INSERT INTO `kullanicilar` (`id`, `kullaniciadi`, `kullaniciparolasi`, `adisoyadi`, `email`, `rol`, `durum`, `kayit_tarihi`, `remember_token`, `son_giris`) VALUES
-(1, 'admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin Kullanıcı', 'admin@example.com', 'admin', 1, '2025-04-03 10:27:10', NULL, '2025-04-03 15:38:31'),
+(1, 'admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin Kullanıcı', 'admin@example.com', 'admin', 1, '2025-04-03 10:27:10', 'dae0d9831f17865398347844ac09dd204e0ca014b5f58fba3f6905fd21284c48', '2025-04-03 16:54:41'),
 (2, 'editor', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Editör Kullanıcı', 'editor@example.com', 'editor', 1, '2025-04-03 10:27:10', NULL, NULL),
-(3, 'yazar', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Yazar Kullanıcı', 'yazar@example.com', 'yazar', 1, '2025-04-03 10:27:10', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Tablo için tablo yapısı `sifre_sifirlama`
---
-
-CREATE TABLE `sifre_sifirlama` (
-  `id` int(11) NOT NULL,
-  `kullanici_id` int(11) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `son_kullanim` datetime NOT NULL,
-  `kullanildi` tinyint(1) NOT NULL DEFAULT 0,
-  `olusturma_tarihi` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+(3, 'yazar', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Yazar Kullanıcı', 'yazar@example.com', 'yazar', 1, '2025-04-03 10:27:10', NULL, NULL),
+(4, 'wexbie', '$2y$10$rkmMQxua3agxbMM.MeIii.n9vSv9AbW9GZwyIAUl.TjiLBGLir/em', 'Eyüp Aslan', 'deneme@deneme.com', 'yazar', 1, '2025-04-03 14:39:02', NULL, '2025-04-03 17:39:50');
 
 -- --------------------------------------------------------
 
@@ -156,7 +142,8 @@ CREATE TABLE `yazi_okunmalar` (
 --
 
 INSERT INTO `yazi_okunmalar` (`id`, `yazi_id`, `ip_adresi`, `okunma_tarihi`) VALUES
-(1, 2, '::1', '2025-04-03 10:33:40');
+(1, 2, '::1', '2025-04-03 10:33:40'),
+(2, 1, '::1', '2025-04-03 14:07:12');
 
 -- --------------------------------------------------------
 
@@ -178,7 +165,13 @@ CREATE TABLE `yorumlar` (
 --
 
 INSERT INTO `yorumlar` (`id`, `yazi_id`, `kullanici_id`, `yorum`, `durum`, `olusturma_tarihi`) VALUES
-(1, 2, 1, 'Deneme bilim deneme', 'onaylandi', '2025-04-03 10:40:51');
+(1, 2, 1, 'Deneme bilim deneme', 'onaylandi', '2025-04-03 10:40:51'),
+(2, 2, 1, 'deneme', 'onaylandi', '2025-04-03 14:45:13'),
+(3, 2, 1, 'deneme', 'onaylandi', '2025-04-03 14:45:23'),
+(4, 2, 4, 'son deneme', 'beklemede', '2025-04-03 14:46:15'),
+(5, 1, 4, 'admin dışı son deneme', 'reddedildi', '2025-04-03 14:49:06'),
+(6, 1, 1, 'admin olarak son yorum', 'onaylandi', '2025-04-03 14:50:16'),
+(7, 1, 2, 'editor olarak son yorum', 'onaylandi', '2025-04-03 14:50:52');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -204,13 +197,6 @@ ALTER TABLE `kullanicilar`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `kullaniciadi` (`kullaniciadi`),
   ADD UNIQUE KEY `email` (`email`);
-
---
--- Tablo için indeksler `sifre_sifirlama`
---
-ALTER TABLE `sifre_sifirlama`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `kullanici_id` (`kullanici_id`);
 
 --
 -- Tablo için indeksler `yazilar`
@@ -256,13 +242,7 @@ ALTER TABLE `kategoriler`
 -- Tablo için AUTO_INCREMENT değeri `kullanicilar`
 --
 ALTER TABLE `kullanicilar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- Tablo için AUTO_INCREMENT değeri `sifre_sifirlama`
---
-ALTER TABLE `sifre_sifirlama`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `yazilar`
@@ -274,23 +254,17 @@ ALTER TABLE `yazilar`
 -- Tablo için AUTO_INCREMENT değeri `yazi_okunmalar`
 --
 ALTER TABLE `yazi_okunmalar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `yorumlar`
 --
 ALTER TABLE `yorumlar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar
 --
-
---
--- Tablo kısıtlamaları `sifre_sifirlama`
---
-ALTER TABLE `sifre_sifirlama`
-  ADD CONSTRAINT `sifre_sifirlama_ibfk_1` FOREIGN KEY (`kullanici_id`) REFERENCES `kullanicilar` (`id`) ON DELETE CASCADE;
 
 --
 -- Tablo kısıtlamaları `yazilar`
